@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Webpage with Ajax</title>
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+#dogImage {
+    margin-top: 20px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+</style>
+
+</head>
+<body>
+    <header>
+        <h1>Webpage with Ajax</h1>
+    </header>
+    <main>
+        <section id="content">
+            <h2>Random Dog Image</h2>
+            <button id="fetchDog">Fetch Dog</button>
+            <div id="dogImage">
+                <img src="" alt="Random Dog">
+            </div>
+        </section>
+    </main>
+    <script>
+
+document.getElementById('fetchDog').addEventListener('click', function () {
+    const xhr = new XMLHttpRequest();
+    const dogImage = document.getElementById('dogImage').querySelector('img');
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                dogImage.src = response.message;
+            } else {
+                console.error('Error:', xhr.status, xhr.statusText);
+            }
+        }
+    };
+
+    xhr.open('GET', 'https://dog.ceo/api/breeds/image/random', true);
+    xhr.send();
+});
+
+</script>
+</body>
+</html>
